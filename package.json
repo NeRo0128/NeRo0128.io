@@ -1,0 +1,26 @@
+{
+  "name": "nero0128-io",
+  "type": "module",
+  "version": "0.0.1",
+  "engines": {
+    "node": ">=22.23.4"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@fontsource/jetbrains-mono": "^5.3.0",
+    "@fontsource/material-symbols-outlined": "^5.3.9",
+    "@fontsource/plus-jakarta-sans": "^5.3.0",
+    "@tailwindcss/vite": "^4.3.3",
+    "astro": "^7.4.2",
+    "tailwindcss": "^4.3.3"
+  },
+  "devDependencies": {
+    "@tailwindcss/container-queries": "^0.1.1",
+    "@tailwindcss/forms": "^0.5.11"
+  }
+}
