@@ -1,0 +1,122 @@
+/* src/styles/global.css */
+
+/* ─── Tailwind v4 ─── */
+@import "tailwindcss";
+@plugin "@tailwindcss/forms";
+@plugin "@tailwindcss/container-queries";
+
+/* Dark mode por clase (coincide con `class="dark"` en <html>) */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ─── Design tokens (equivalentes a tu tailwind.config original) ─── */
+@theme {
+    /* Colores */
+    --color-surface-black: #08080a;
+    --color-surface-dark: #0e0e12;
+    --color-surface-card: #131318;
+    --color-surface-card-hover: #181820;
+
+    --color-brand-orange: #ff5500;
+    --color-brand-orange-light: #ff6b1a;
+    --color-brand-cyan: #00f0ff;
+
+    --color-border-subtle: rgba(255, 255, 255, 0.08);
+    --color-border-medium: rgba(255, 255, 255, 0.14);
+
+    --color-text-primary: #f4f4f6;
+    --color-text-secondary: #9e9ea8;
+    --color-text-muted: #636370;
+
+    /* Fuentes (Fontsource inyecta @font-face; aquí solo conectamos las families) */
+    --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+    /* Letter-spacing */
+    --tracking-tighter: -0.04em;
+    --tracking-tight: -0.02em;
+}
+
+/* ─── Base ─── */
+::selection {
+    background: #ff5500;
+    color: #08080a;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+/* ─── Iconos Material Symbols (Fontsource ya cargó la @font-face) ─── */
+.material-symbols-outlined {
+    font-family: "Material Symbols Outlined", sans-serif;
+    font-weight: normal;
+    font-style: normal;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    font-variation-settings:
+        "FILL" 0,
+        "wght" 400,
+        "GRAD" 0,
+        "opsz" 24;
+    -webkit-font-feature-settings: "liga";
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ─── Efectos custom del diseño original ─── */
+.glow-orange {
+    box-shadow: 0 0 35px -5px rgba(255, 85, 0, 0.35);
+}
+.glow-orange-sm {
+    box-shadow: 0 0 15px 0 rgba(255, 85, 0, 0.25);
+}
+.glow-border:hover {
+    border-color: rgba(255, 85, 0, 0.5);
+}
+
+.reveal-item {
+    opacity: 0;
+    transform: translateY(24px);
+    transition:
+        opacity 700ms cubic-bezier(0.16, 1, 0.3, 1),
+        transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal-item.revealed {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.bg-tech-grid {
+    background-image:
+        radial-gradient(
+            circle at 50% 0%,
+            rgba(255, 85, 0, 0.12) 0%,
+            transparent 55%
+        ),
+        linear-gradient(
+            to right,
+            rgba(255, 255, 255, 0.025) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            to bottom,
+            rgba(255, 255, 255, 0.025) 1px,
+            transparent 1px
+        );
+    background-size:
+        100% 100%,
+        48px 48px,
+        48px 48px;
+}
+
+.case-card-overlay {
+    background: linear-gradient(
+        180deg,
+        rgba(14, 14, 18, 0) 30%,
+        rgba(8, 8, 10, 0.95) 90%
+    );
+}
