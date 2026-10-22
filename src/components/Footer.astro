@@ -1,0 +1,58 @@
+---
+// src/components/Footer.astro
+import Icon from "./ui/Icon.astro";
+import type { Lang } from "../i18n/ui";
+
+interface Props {
+    lang: Lang;
+}
+const { lang } = Astro.props;
+const year = new Date().getFullYear();
+const homeHref = lang === "es" ? "/" : "/en/";
+---
+
+<footer class="py-12 border-t border-border-subtle bg-surface-dark/80 text-text-secondary font-mono text-xs">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col md:flex-row items-center justify-between gap-6">
+        <div class="flex items-center gap-3 flex-wrap justify-center">
+            <div class="w-6 h-6 rounded-full overflow-hidden flex items-center justify-center bg-surface-card border border-border-subtle">
+                <span class="text-brand-orange font-bold text-[9px]">R</span>
+            </div>
+            <span class="text-text-primary font-bold">RCV.studio</span>
+            <span class="text-text-muted">
+                © {year} Rodolfo Castillo Vega. All systems operational.
+            </span>
+        </div>
+
+        <div class="flex items-center gap-6 text-text-muted">
+            <a
+                href="mailto:nerowork60@gmail.com"
+                class="hover:text-brand-orange transition-colors"
+            >
+                Email
+            </a>
+            <a
+                href="https://github.com/NeRo0128"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="hover:text-brand-orange transition-colors"
+            >
+                GitHub
+            </a>
+            <a
+                href="https://linkedin.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="hover:text-brand-orange transition-colors"
+            >
+                LinkedIn
+            </a>
+            <a
+                href={homeHref}
+                class="text-text-primary hover:text-brand-orange transition-colors flex items-center gap-1"
+            >
+                <span>Top</span>
+                <Icon name="arrow_upward" size={14} />
+            </a>
+        </div>
+    </div>
+</footer>

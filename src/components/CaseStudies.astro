@@ -1,0 +1,255 @@
+---
+// src/components/CaseStudies.astro
+import SectionHeader from "./ui/SectionHeader.astro";
+import Icon from "./ui/Icon.astro";
+import Badge from "./ui/Badge.astro";
+import Button from "./ui/Button.astro";
+import { cases } from "../data/cases";
+import { useTranslations } from "../i18n/utils";
+import type { Lang } from "../i18n/ui";
+import type { TerminalColor } from "../data/cases";
+
+interface Props {
+    lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const { featured, cards, banner } = cases[lang];
+
+const lineColor = (c?: TerminalColor): string => {
+    switch (c) {
+        case "primary":
+            return "text-text-primary";
+        case "orange":
+            return "text-brand-orange";
+        case "orange-bold":
+            return "text-brand-orange font-bold";
+        case "emerald":
+            return "text-emerald-400";
+        default:
+            return "text-text-secondary";
+    }
+};
+---
+
+<section id="proyectos" class="py-24 border-t border-border-subtle">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+        <SectionHeader
+            number="02"
+            category="CASE STUDIES"
+            title={t("cases.title")}
+            class="mb-16"
+        >
+            <a
+                href="https://github.com/NeRo0128"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center gap-1 text-xs font-mono text-text-secondary hover:text-brand-orange transition-colors"
+            >
+                <span>{t("cases.github")}</span>
+                <Icon name="arrow_forward" size={15} />
+            </a>
+        </SectionHeader>
+
+        <div class="space-y-10">
+            <!-- ─── CASE 01: Featured ─── -->
+            <div class="rounded-3xl bg-surface-card border border-border-subtle hover:border-brand-orange/60 transition-all duration-500 overflow-hidden group">
+                <div class="grid grid-cols-1 lg:grid-cols-12 items-stretch">
+                    <!-- Left content -->
+                    <div class="lg:col-span-7 p-8 sm:p-10 flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center gap-3 mb-6 font-mono text-xs text-text-muted">
+                                <span class="text-brand-orange font-bold text-sm">
+                                    {featured.num}
+                                </span>
+                                <span>/</span>
+                                <span class="text-text-secondary">
+                                    {featured.category}
+                                </span>
+                                <span class="px-2 py-0.5 rounded-full bg-brand-orange/10 border border-brand-orange/20 text-brand-orange font-semibold text-[10px]">
+                                    {featured.badge}
+                                </span>
+                            </div>
+
+                            <h3 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-text-primary mb-4 group-hover:text-brand-orange transition-colors">
+                                {featured.title}
+                            </h3>
+                            <p class="text-sm text-text-secondary leading-relaxed mb-6 font-sans">
+                                {featured.description}
+                            </p>
+
+                            <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-8 font-mono text-xs">
+                                {featured.metrics.map((m, i) => (
+                                    <div
+                                        class:list={[
+                                            "p-3 rounded-xl bg-surface-dark border border-border-subtle",
+                                            i === 2 &&
+                                                "col-span-2 sm:col-span-1",
+                                        ]}
+                                    >
+                                        <span class="text-[10px] text-text-muted block">
+                                            {m.label}
+                                        </span>
+                                        <span
+                                            class:list={[
+                                                "font-bold",
+                                                m.accent === "orange"
+                                                    ? "text-brand-orange"
+                                                    : "text-text-primary",
+                                            ]}
+                                        >
+                                            {m.value}
+                                        </span>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-4 pt-6 border-t border-border-subtle">
+                            <Button
+                                variant="primary"
+                                href={featured.repoUrl}
+                                class="px-5 py-2.5 text-xs"
+                            >
+                                {t("cases.viewRepo")}
+                                <Icon name="arrow_outward" size={16} />
+                            </Button>
+                            <span class="font-mono text-[11px] text-text-muted">
+                                {featured.stack}
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Right: terminal mockup -->
+                    <div class="lg:col-span-5 bg-surface-black/90 p-6 sm:p-8 border-t lg:border-t-0 lg:border-l border-border-subtle flex flex-col justify-between font-mono text-xs">
+                        <div class="flex items-center justify-between pb-3 border-b border-border-subtle text-text-muted">
+                            <div class="flex items-center gap-1.5">
+                                <span class="w-2.5 h-2.5 rounded-full bg-red-500/80"></span>
+                                <span class="w-2.5 h-2.5 rounded-full bg-yellow-500/80"></span>
+                                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500/80"></span>
+                                <span class="ml-2 text-[11px] text-text-secondary">
+                                    brain-cli ~ session: active
+                                </span>
+                            </div>
+                            <span class="text-[10px] text-brand-orange">
+                                {featured.terminal.pid}
+                            </span>
+                        </div>
+
+                        <div class="py-6 space-y-3 text-[12px] leading-relaxed">
+                            <p class="text-text-muted">
+                                ${" "}
+                                <span class="text-text-primary">
+                                    {featured.terminal.prompt}
+                                </span>
+                            </p>
+                            {featured.terminal.logLines.map((line) => (
+                                <p class={lineColor(line.color)}>{line.text}</p>
+                            ))}
+                            <div class="p-3 rounded-lg bg-surface-card border border-border-subtle text-text-primary text-[11px]">
+                                <span class="text-brand-cyan">
+                                    {featured.terminal.response.label}
+                                </span>
+                                <span class="block mt-1 text-text-secondary">
+                                    {featured.terminal.response.text}
+                                </span>
+                            </div>
+                            <p class="text-[11px] text-emerald-400">
+                                {featured.terminal.executionTime}
+                            </p>
+                        </div>
+
+                        <div class="pt-3 border-t border-border-subtle text-[11px] text-text-muted flex justify-between">
+                            <span>{featured.terminal.footerLeft}</span>
+                            <span class="text-brand-cyan">
+                                {featured.terminal.footerRight}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ─── CASE 02 & 03: 2-col ─── -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                {cards.map((c) => (
+                    <div class="rounded-3xl bg-surface-card border border-border-subtle hover:border-brand-orange/60 p-8 flex flex-col justify-between transition-all duration-300 group">
+                        <div>
+                            <div class="flex items-center justify-between mb-4 font-mono text-xs">
+                                <span class="text-brand-orange font-bold">
+                                    {c.num}
+                                </span>
+                                <span class="text-text-muted">
+                                    {c.category}
+                                </span>
+                            </div>
+                            <h3 class="text-xl sm:text-2xl font-bold text-text-primary mb-3 group-hover:text-brand-orange transition-colors">
+                                {c.title}
+                            </h3>
+                            <p class="text-xs text-text-secondary leading-relaxed mb-6 font-sans">
+                                {c.description}
+                            </p>
+                            <div class="flex flex-wrap gap-1.5 font-mono text-[10px] mb-6">
+                                {c.tags.map((tag) => (
+                                    <Badge
+                                        text={tag.label}
+                                        accent={tag.accent}
+                                        class="px-2.5 py-1"
+                                    />
+                                ))}
+                            </div>
+                        </div>
+                        <div class="pt-4 border-t border-border-subtle flex items-center justify-between font-mono text-xs">
+                            <a
+                                href={c.repoUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="text-text-primary hover:text-brand-orange flex items-center gap-1 transition-colors"
+                            >
+                                <span>{c.repoLabel}</span>
+                                <Icon name="arrow_outward" size={14} />
+                            </a>
+                            <span class="text-text-muted text-[11px]">
+                                {c.meta}
+                            </span>
+                        </div>
+                    </div>
+                ))}
+            </div>
+
+            <!-- ─── CASE 04: Banner ─── -->
+            <div class="rounded-3xl bg-surface-card border border-border-subtle p-7 hover:border-brand-orange/60 transition-all duration-300 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 group">
+                <div class="flex items-start gap-4">
+                    <span class="font-mono text-sm text-brand-orange font-bold mt-0.5">
+                        {banner.num}
+                    </span>
+                    <div>
+                        <div class="flex items-center gap-2 mb-1">
+                            <h4 class="text-base font-bold text-text-primary group-hover:text-brand-orange transition-colors">
+                                {banner.title}
+                            </h4>
+                            <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-surface-dark text-text-secondary border border-border-subtle">
+                                {banner.pill}
+                            </span>
+                        </div>
+                        <p class="text-xs text-text-secondary max-w-2xl font-sans">
+                            {banner.description}
+                        </p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4 shrink-0 font-mono text-xs">
+                    <span class="text-text-muted hidden md:inline">
+                        {banner.meta}
+                    </span>
+                    <a
+                        href={banner.repoUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="px-4 py-2 rounded-full bg-surface-dark hover:bg-surface-black border border-border-subtle hover:border-brand-orange text-text-primary transition-all"
+                    >
+                        {t("cases.repoAccess")} ↗
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

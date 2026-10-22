@@ -1,0 +1,101 @@
+---
+// src/components/Timeline.astro
+import SectionHeader from "./ui/SectionHeader.astro";
+import Icon from "./ui/Icon.astro";
+import Badge from "./ui/Badge.astro";
+import { jobs } from "../data/timeline";
+import { useTranslations } from "../i18n/utils";
+import type { Lang } from "../i18n/ui";
+
+interface Props {
+    lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const items = jobs[lang];
+---
+
+<section
+    id="trayectoria"
+    class="py-20 border-t border-border-subtle bg-surface-dark/40"
+>
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+        <SectionHeader
+            number="03"
+            category="EXPERIENCE & MILESTONES"
+            title={t("timeline.title")}
+        >
+            <p class="text-xs font-mono text-text-secondary max-w-md">
+                {t("timeline.description")}
+            </p>
+        </SectionHeader>
+
+        <div class="border-t border-border-subtle divide-y divide-border-subtle font-sans">
+            {items.map((job) => (
+                <div class="py-8 grid grid-cols-1 md:grid-cols-12 gap-4 items-start group hover:bg-surface-card/40 transition-colors px-3 rounded-2xl">
+                    <div class="md:col-span-3 font-mono text-xs text-text-secondary">
+                        <span
+                            class:list={[
+                                "block mb-1 font-bold",
+                                job.active
+                                    ? "text-brand-orange"
+                                    : "text-text-primary",
+                            ]}
+                        >
+                            {job.period}
+                        </span>
+                        <span class="text-text-muted">{job.company}</span>
+                    </div>
+
+                    <div class="md:col-span-6">
+                        <h3 class="text-lg font-bold text-text-primary mb-2 group-hover:text-brand-orange transition-colors">
+                            {job.title}
+                        </h3>
+                        <p class="text-xs text-text-secondary leading-relaxed mb-3">
+                            {job.description}
+                        </p>
+                        <div class="flex flex-wrap gap-1">
+                            {job.tags.map((tag) => (
+                                <Badge
+                                    text={tag.label}
+                                    accent={tag.accent}
+                                    class="bg-surface-card"
+                                />
+                            ))}
+                        </div>
+                    </div>
+
+                    <div class="md:col-span-3 md:text-right font-mono text-xs text-text-muted">
+                        {job.active ? (
+                            <span class="px-2.5 py-1 rounded-full bg-brand-orange/10 border border-brand-orange/20 text-brand-orange font-semibold">
+                                {t("timeline.activeBadge")}
+                            </span>
+                        ) : (
+                            <span>{job.location}</span>
+                        )}
+                    </div>
+                </div>
+            ))}
+        </div>
+
+        <!-- Banner educación -->
+        <div class="mt-12 p-6 rounded-2xl bg-surface-card border border-border-subtle flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-surface-dark border border-border-subtle flex items-center justify-center text-brand-orange">
+                    <Icon name="school" size={20} />
+                </div>
+                <div>
+                    <h4 class="text-sm font-bold text-text-primary">
+                        {t("timeline.education.title")}
+                    </h4>
+                    <p class="text-xs text-text-secondary">
+                        Universidad Central "Marta Abreu" de Las Villas (UCLV)
+                    </p>
+                </div>
+            </div>
+            <span class="font-mono text-xs text-text-muted bg-surface-dark px-3 py-1 rounded-full border border-border-subtle">
+                Algorithms · Distributed Systems · Theory
+            </span>
+        </div>
+    </div>
+</section>

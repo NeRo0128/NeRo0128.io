@@ -1,0 +1,199 @@
+---
+// src/components/ContactForm.astro
+import Icon from "./ui/Icon.astro";
+import { useTranslations } from "../i18n/utils";
+import type { Lang } from "../i18n/ui";
+
+interface Props {
+    lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<section
+    id="inquiry"
+    class="py-24 border-t border-border-subtle relative overflow-hidden bg-surface-black"
+>
+    <!-- Glow de fondo -->
+    <div class="absolute -bottom-24 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-brand-orange/10 blur-[130px] rounded-full pointer-events-none"></div>
+
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+            <!-- Columna izquierda: propuesta de valor -->
+            <div class="lg:col-span-5">
+                <span class="font-mono text-xs text-brand-orange uppercase tracking-widest font-semibold flex items-center gap-1.5 mb-3">
+                    <span class="w-1.5 h-1.5 rounded-full bg-brand-orange"></span>
+                    04 / DIRECT CHANNEL
+                </span>
+                <h2 class="text-4xl sm:text-5xl font-extrabold tracking-tighter text-text-primary mb-6 leading-tight">
+                    {t("contact.title.lead")}
+                    <br />
+                    <span class="text-brand-orange">
+                        {t("contact.title.accent")}
+                    </span>
+                </h2>
+                <p class="text-sm text-text-secondary leading-relaxed mb-8 font-sans">
+                    {t("contact.description")}
+                </p>
+
+                <div class="space-y-4 font-mono text-xs">
+                    <div class="flex items-center gap-3 text-text-secondary">
+                        <span class="w-7 h-7 rounded-lg bg-surface-card border border-border-subtle flex items-center justify-center text-brand-orange">
+                            <Icon name="mail" size={15} />
+                        </span>
+                        <a
+                            href="mailto:nerowork60@gmail.com"
+                            class="hover:text-text-primary transition-colors"
+                        >
+                            nerowork60@gmail.com
+                        </a>
+                    </div>
+                    <div class="flex items-center gap-3 text-text-secondary">
+                        <span class="w-7 h-7 rounded-lg bg-surface-card border border-border-subtle flex items-center justify-center text-brand-orange">
+                            <Icon name="call" size={15} />
+                        </span>
+                        <a
+                            href="tel:+5358523564"
+                            class="hover:text-text-primary transition-colors"
+                        >
+                            +53 585 235 64
+                        </a>
+                    </div>
+                    <div class="flex items-center gap-3 text-text-secondary">
+                        <span class="w-7 h-7 rounded-lg bg-surface-card border border-border-subtle flex items-center justify-center text-brand-orange">
+                            <Icon name="code" size={15} />
+                        </span>
+                        <a
+                            href="https://github.com/NeRo0128"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="hover:text-text-primary transition-colors"
+                        >
+                            github.com/NeRo0128
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Columna derecha: formulario -->
+            <div class="lg:col-span-7">
+                <div class="rounded-3xl bg-surface-card border border-border-medium p-7 sm:p-9 shadow-2xl relative">
+                    <h3 class="text-xl font-extrabold text-text-primary tracking-tight mb-2">
+                        {t("contact.form.title")}
+                    </h3>
+                    <p class="text-xs font-mono text-text-secondary mb-6">
+                        {t("contact.form.description")}
+                    </p>
+
+                    <form
+                        class="space-y-4"
+                        id="inquiryForm"
+                        data-lang={lang}
+                        novalidate
+                    >
+                        <div>
+                            <label
+                                for="name"
+                                class="block font-mono text-[11px] text-text-muted uppercase tracking-wider mb-1.5"
+                            >
+                                {t("contact.form.name")}
+                            </label>
+                            <input
+                                id="name"
+                                name="name"
+                                type="text"
+                                required
+                                placeholder="Jane Doe"
+                                class="w-full px-4 py-3 rounded-xl bg-surface-dark border border-border-subtle focus:border-brand-orange focus:ring-1 focus:ring-brand-orange text-text-primary text-xs font-mono placeholder:text-text-muted transition-colors outline-none"
+                            />
+                        </div>
+
+                        <div>
+                            <label
+                                for="email"
+                                class="block font-mono text-[11px] text-text-muted uppercase tracking-wider mb-1.5"
+                            >
+                                {t("contact.form.email")}
+                            </label>
+                            <input
+                                id="email"
+                                name="email"
+                                type="email"
+                                required
+                                placeholder="jane@company.com"
+                                class="w-full px-4 py-3 rounded-xl bg-surface-dark border border-border-subtle focus:border-brand-orange focus:ring-1 focus:ring-brand-orange text-text-primary text-xs font-mono placeholder:text-text-muted transition-colors outline-none"
+                            />
+                        </div>
+
+                        <div>
+                            <label
+                                for="scope"
+                                class="block font-mono text-[11px] text-text-muted uppercase tracking-wider mb-1.5"
+                            >
+                                {t("contact.form.scope")}
+                            </label>
+                            <textarea
+                                id="scope"
+                                name="scope"
+                                required
+                                rows="4"
+                                placeholder="Describa el objetivo (e.g. Go microservices, AI vector integration, cloud backend)..."
+                                class="w-full px-4 py-3 rounded-xl bg-surface-dark border border-border-subtle focus:border-brand-orange focus:ring-1 focus:ring-brand-orange text-text-primary text-xs font-sans placeholder:text-text-muted transition-colors outline-none resize-none"
+                            ></textarea>
+                        </div>
+
+                        <div class="pt-2">
+                            <button
+                                id="submitInquiryBtn"
+                                type="submit"
+                                class="w-full py-3.5 rounded-xl bg-brand-orange hover:bg-brand-orange-light text-surface-black font-bold text-xs uppercase tracking-wider transition-all duration-300 shadow-[0_0_25px_rgba(255,85,0,0.35)] active:scale-95 flex items-center justify-center gap-2"
+                            >
+                                <span id="submitBtnText">
+                                    {t("contact.form.submit")}
+                                </span>
+                                <Icon name="send" size={16} />
+                            </button>
+                        </div>
+                    </form>
+
+                    <div
+                        id="formSuccessMessage"
+                        class="hidden mt-4 p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-mono text-xs text-center"
+                    >
+                        {t("contact.form.success")}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    const form = document.getElementById(
+        "inquiryForm",
+    ) as HTMLFormElement | null;
+    const submitBtn = document.getElementById(
+        "submitInquiryBtn",
+    ) as HTMLButtonElement | null;
+    const btnText = document.getElementById("submitBtnText");
+    const successMsg = document.getElementById("formSuccessMessage");
+
+    if (form && submitBtn && btnText && successMsg) {
+        form.addEventListener("submit", (event) => {
+            event.preventDefault();
+            const lang = form.dataset.lang || "es";
+
+            btnText.textContent =
+                lang === "en" ? "Transmitting..." : "Transmitiendo...";
+            submitBtn.disabled = true;
+
+            // TODO: conectar a un backend real (Formspree, Resend, etc.)
+            setTimeout(() => {
+                submitBtn.style.display = "none";
+                successMsg.classList.remove("hidden");
+                form.reset();
+            }, 800);
+        });
+    }
+</script>

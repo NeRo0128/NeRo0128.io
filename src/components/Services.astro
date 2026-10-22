@@ -1,0 +1,63 @@
+---
+// src/components/Services.astro
+import SectionHeader from "./ui/SectionHeader.astro";
+import Icon from "./ui/Icon.astro";
+import Badge from "./ui/Badge.astro";
+import { services } from "../data/services";
+import { useTranslations } from "../i18n/utils";
+import type { Lang } from "../i18n/ui";
+
+interface Props {
+    lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const items = services[lang];
+---
+
+<section
+    id="servicios"
+    class="py-20 border-t border-border-subtle bg-surface-dark/50"
+>
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+        <SectionHeader
+            number="01"
+            category="CAPABILITIES"
+            title={t("services.title")}
+        >
+            <p class="text-xs font-mono text-text-secondary max-w-md">
+                {t("services.description")}
+            </p>
+        </SectionHeader>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {items.map((service) => (
+                <div class="rounded-2xl bg-surface-card border border-border-subtle p-6 hover:border-brand-orange/60 transition-all duration-300 flex flex-col justify-between group">
+                    <div>
+                        <div class="flex items-center justify-between mb-6">
+                            <span class="font-mono text-xs text-text-muted group-hover:text-brand-orange transition-colors">
+                                {service.num}
+                            </span>
+                            <Icon
+                                name={service.icon}
+                                size={24}
+                                class="text-text-secondary group-hover:text-brand-orange transition-colors"
+                            />
+                        </div>
+                        <h3 class="text-lg font-bold text-text-primary mb-2">
+                            {service.title}
+                        </h3>
+                        <p class="text-xs text-text-secondary leading-relaxed mb-6">
+                            {service.description}
+                        </p>
+                    </div>
+                    <div class="flex flex-wrap gap-1 border-t border-border-subtle pt-3">
+                        {service.tags.map((tag) => (
+                            <Badge text={tag.label} accent={tag.accent} />
+                        ))}
+                    </div>
+                </div>
+            ))}
+        </div>
+    </div>
+</section>

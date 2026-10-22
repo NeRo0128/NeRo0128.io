@@ -1,0 +1,89 @@
+---
+// src/components/Header.astro
+import Button from "./ui/Button.astro";
+import Icon from "./ui/Icon.astro";
+import {
+    getLangFromUrl,
+    useTranslations,
+    getOtherLangPath,
+    getOtherLang,
+} from "../i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const otherLang = getOtherLang(lang);
+const otherLangPath = getOtherLangPath(Astro.url);
+---
+
+<header class="fixed top-4 left-0 right-0 z-50 flex justify-center px-4">
+    <div class="w-full max-w-6xl mx-auto flex items-center justify-between px-4 py-2.5 rounded-full bg-surface-dark/85 backdrop-blur-xl border border-border-medium shadow-2xl transition-all duration-300">
+        <!-- Logo -->
+        <a
+            href={`/${lang === "es" ? "" : lang + "/"}`}
+            class="flex items-center gap-2.5 group active:scale-95 transition-transform pl-1"
+        >
+            <div class="w-8 h-8 rounded-full flex items-center justify-center bg-surface-card border border-border-medium group-hover:border-brand-orange transition-colors">
+                <span class="font-mono text-brand-orange text-xs font-black">
+                    R
+                </span>
+            </div>
+            <div class="flex items-baseline gap-1.5">
+                <span class="font-extrabold tracking-tight text-sm text-text-primary">
+                    RCV<span class="text-brand-orange">.</span>studio
+                </span>
+                <span class="hidden sm:inline-block font-mono text-[10px] text-text-muted uppercase tracking-widest px-1.5 py-0.5 rounded bg-surface-card border border-border-subtle">
+                    v3.4
+                </span>
+            </div>
+        </a>
+
+        <!-- Nav -->
+        <nav class="hidden md:flex items-center gap-7 text-xs font-mono font-medium text-text-secondary">
+            <a
+                class="hover:text-brand-orange transition-colors"
+                href="#servicios"
+            >
+                {t("nav.services")}
+            </a>
+            <a
+                class="hover:text-brand-orange transition-colors"
+                href="#proyectos"
+            >
+                {t("nav.cases")}
+            </a>
+            <a
+                class="hover:text-brand-orange transition-colors"
+                href="#trayectoria"
+            >
+                {t("nav.trajectory")}
+            </a>
+            <a
+                class="hover:text-brand-orange transition-colors"
+                href="#inquiry"
+            >
+                {t("nav.contact")}
+            </a>
+        </nav>
+
+        <!-- Actions -->
+        <div class="flex items-center gap-2.5">
+            <a
+                href={otherLangPath}
+                class="px-2.5 py-1 rounded-full border border-border-subtle bg-surface-card/60 hover:border-brand-orange text-[11px] font-mono text-text-secondary hover:text-text-primary transition-all flex items-center gap-1"
+                aria-label={`Switch to ${otherLang}`}
+            >
+                <Icon name="language" size={14} class="text-brand-orange" />
+                <span class="font-bold">{otherLang.toUpperCase()}</span>
+            </a>
+
+            <Button
+                variant="primary"
+                href="#inquiry"
+                class="px-4 py-1.5 text-xs"
+            >
+                {t("nav.cta")}
+                <Icon name="arrow_outward" size={16} class="font-bold" />
+            </Button>
+        </div>
+    </div>
+</header>

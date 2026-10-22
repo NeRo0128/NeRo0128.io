@@ -1,0 +1,183 @@
+---
+// src/components/Hero.astro
+import Button from "./ui/Button.astro";
+import Icon from "./ui/Icon.astro";
+import { useTranslations } from "../i18n/utils";
+import type { Lang } from "../i18n/ui";
+
+interface Props {
+    lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<section
+    id="inicio"
+    class="relative pt-32 pb-20 md:pt-40 md:pb-28 w-full bg-tech-grid"
+>
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+        <!-- ─── Micro-bar de telemetría ─── -->
+        <div class="reveal-item flex flex-wrap items-center justify-between gap-3 mb-8 pb-4 border-b border-border-subtle font-mono text-xs text-text-secondary">
+            <div class="flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                <span class="text-text-primary font-semibold">
+                    {t("hero.status")}
+                </span>
+            </div>
+            <div class="flex items-center gap-4 text-[11px] text-text-muted">
+                <span class="flex items-center gap-1.5">
+                    <span class="w-1.5 h-1.5 rounded-full bg-brand-cyan"></span>
+                    LATENCY:{" "}
+                    <span class="text-brand-cyan font-bold" id="heroLatency">
+                        28ms
+                    </span>
+                </span>
+                <span class="hidden sm:inline">
+                    STACK: GO · PYTHON · DISTRIBUTED AI
+                </span>
+                <span>REGION: UTC-5 / REMOTE</span>
+            </div>
+        </div>
+
+        <!-- ─── Layout split ─── -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+            <!-- Columna izquierda: tipografía editorial -->
+            <div class="lg:col-span-7 flex flex-col items-start text-left">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface-card border border-border-subtle mb-5">
+                    <span class="w-1.5 h-1.5 rounded-full bg-brand-orange"></span>
+                    <span class="text-xs font-mono font-medium text-text-secondary uppercase tracking-wider">
+                        {t("hero.badge")}
+                    </span>
+                </div>
+
+                <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-[68px] font-extrabold tracking-tighter leading-[1.05] text-text-primary mb-6">
+                    <span>{t("hero.title.lead")}</span>
+                    <span class="text-brand-orange italic font-serif font-normal">
+                        {" "}
+                        {t("hero.title.accent")}
+                    </span>
+                    <span class="block mt-1">{t("hero.title.tail")}</span>
+                </h1>
+
+                <p class="text-base sm:text-lg text-text-secondary leading-relaxed font-sans max-w-xl mb-8">
+                    {t("hero.description")}
+                </p>
+
+                <div class="flex flex-wrap items-center gap-3">
+                    <Button
+                        variant="primary"
+                        href="#inquiry"
+                        class="px-6 py-3.5 text-sm shadow-[0_0_30px_rgba(255,85,0,0.35)]"
+                    >
+                        {t("hero.cta.primary")}
+                        <Icon name="terminal" size={18} />
+                    </Button>
+                    <a
+                        href="https://github.com/NeRo0128"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="px-5 py-3.5 rounded-full bg-surface-card hover:bg-surface-card-hover border border-border-subtle hover:border-brand-orange text-text-primary font-mono text-xs flex items-center gap-2 transition-all active:scale-95"
+                    >
+                        <Icon name="code" size={16} class="text-brand-orange" />
+                        <span>github.com/NeRo0128</span>
+                    </a>
+                </div>
+
+                <!-- Stats -->
+                <div class="grid grid-cols-3 gap-6 pt-10 mt-8 border-t border-border-subtle w-full max-w-lg">
+                    <div>
+                        <span class="block text-2xl font-extrabold text-text-primary font-mono">
+                            03+
+                        </span>
+                        <span class="text-[11px] font-mono text-text-muted uppercase tracking-wider">
+                            {t("hero.stat.years")}
+                        </span>
+                    </div>
+                    <div>
+                        <span class="block text-2xl font-extrabold text-brand-orange font-mono">
+                            99.98%
+                        </span>
+                        <span class="text-[11px] font-mono text-text-muted uppercase tracking-wider">
+                            {t("hero.stat.sla")}
+                        </span>
+                    </div>
+                    <div>
+                        <span class="block text-2xl font-extrabold text-text-primary font-mono">
+                            {"<40ms"}
+                        </span>
+                        <span class="text-[11px] font-mono text-text-muted uppercase tracking-wider">
+                            {t("hero.stat.latency")}
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Columna derecha: tarjeta de perfil -->
+            <div class="lg:col-span-5 flex justify-center lg:justify-end">
+                <div class="relative w-full max-w-sm sm:max-w-md bg-surface-card border border-border-medium rounded-3xl p-3 pb-5 shadow-2xl hover:border-brand-orange/60 transition-all duration-500 group">
+                    <!-- Crosshairs técnicos -->
+                    <div class="absolute -top-2 -left-2 w-4 h-4 border-t-2 border-l-2 border-brand-orange"></div>
+                    <div class="absolute -top-2 -right-2 w-4 h-4 border-t-2 border-r-2 border-brand-orange"></div>
+                    <div class="absolute -bottom-2 -left-2 w-4 h-4 border-b-2 border-l-2 border-brand-orange"></div>
+                    <div class="absolute -bottom-2 -right-2 w-4 h-4 border-b-2 border-r-2 border-brand-orange"></div>
+
+                    <!-- Foto -->
+                    <div class="relative w-full aspect-[4/5] rounded-2xl overflow-hidden bg-surface-dark border border-border-subtle mb-4">
+                        <img
+                            src="/images/portrait.jpg"
+                            alt="Rodolfo Castillo Vega portrait"
+                            class="w-full h-full object-cover grayscale contrast-125 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-out"
+                            loading="eager"
+                        />
+                        <div class="absolute inset-0 bg-gradient-to-t from-surface-black via-transparent to-transparent opacity-80 pointer-events-none"></div>
+
+                        <div class="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-surface-black/85 backdrop-blur-md border border-brand-orange/40 text-[10px] font-mono text-brand-orange flex items-center gap-1.5">
+                            <span class="w-1.5 h-1.5 rounded-full bg-brand-orange animate-pulse"></span>
+                            <span>{t("hero.card.role")}</span>
+                        </div>
+
+                        <div class="absolute bottom-3 left-3 right-3">
+                            <span class="text-xs font-mono text-brand-orange block tracking-wider uppercase">
+                                Rodolfo Castillo Vega
+                            </span>
+                            <span class="text-lg font-bold text-text-primary tracking-tight">
+                                {t("hero.card.location")}
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Sub-bar -->
+                    <div class="flex items-center justify-between px-2 font-mono text-[11px] text-text-secondary border-t border-border-subtle pt-3">
+                        <span class="flex items-center gap-1.5">
+                            <Icon
+                                name="verified"
+                                size={15}
+                                class="text-brand-orange"
+                            />
+                            <span>{t("hero.card.education")}</span>
+                        </span>
+                        <a
+                            href="mailto:nerowork60@gmail.com"
+                            class="text-text-primary hover:text-brand-orange transition-colors flex items-center gap-1"
+                        >
+                            <span>nerowork60@gmail.com</span>
+                            <Icon name="north_east" size={13} />
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    // Simulador de latencia (telemetría viva)
+    const el = document.getElementById("heroLatency");
+    if (el) {
+        setInterval(() => {
+            const ms = Math.floor(24 + Math.random() * 12);
+            el.textContent = `${ms}ms`;
+        }, 4000);
+    }
+</script>
