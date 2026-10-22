@@ -1,0 +1,14 @@
+node_modules/
+*.log
+.DS_Store
+.vscode/
+.idea/
+.env
+
+# Build output and Astro cache
+dist/
+.astro/
+
+# Local tooling / legacy backup of the previous static site
+.venv/
+bak/
