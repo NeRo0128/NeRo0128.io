@@ -1,0 +1,28 @@
+---
+// src/components/ui/SectionHeader.astro
+interface Props {
+    number: string;
+    category: string;
+    title: string;
+    class?: string;
+}
+const { number, category, title, class: className = "mb-12" } = Astro.props;
+---
+
+<div
+    class:list={[
+        "flex flex-col md:flex-row md:items-end justify-between gap-4",
+        className,
+    ]}
+>
+    <div>
+        <span class="font-mono text-xs text-brand-orange uppercase tracking-widest font-semibold flex items-center gap-1.5 mb-2">
+            <span class="w-1.5 h-1.5 rounded-full bg-brand-orange"></span>
+            {number} / {category}
+        </span>
+        <h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-text-primary">
+            {title}
+        </h2>
+    </div>
+    <slot />
+</div>

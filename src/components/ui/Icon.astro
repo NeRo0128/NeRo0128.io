@@ -1,0 +1,15 @@
+---
+// src/components/ui/Icon.astro
+interface Props {
+  name: string;
+  class?: string;
+  size?: number;
+}
+const { name, class: className = '', size = 16 } = Astro.props;
+---
+
+<span
+  class={`material-symbols-outlined ${className}`}
+  style={`font-size: ${size}px;`}
+  aria-hidden="true"
+>{name}</span>

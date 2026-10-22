@@ -1,0 +1,25 @@
+---
+// src/components/ui/Badge.astro
+interface Props {
+  text: string;
+  accent?: 'orange' | 'cyan' | 'default';
+  class?: string;
+}
+const { text, accent = 'default', class: className = '' } = Astro.props;
+
+const accents = {
+  orange: 'text-brand-orange',
+  cyan: 'text-brand-cyan',
+  default: 'text-text-secondary',
+};
+---
+
+<span
+  class:list={[
+    'px-2 py-0.5 rounded bg-surface-dark border border-border-subtle font-mono text-[10px]',
+    accents[accent],
+    className,
+  ]}
+>
+  {text}
+</span>
