@@ -12,3 +12,6 @@ dist/
 # Local tooling / legacy backup of the previous static site
 .venv/
 bak/
+
+# Vercel CLI link metadata
+.vercel/
