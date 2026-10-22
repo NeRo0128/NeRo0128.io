@@ -1,0 +1,63 @@
+---
+// src/layouts/Layout.astro
+import "@fontsource/plus-jakarta-sans/400.css";
+import "@fontsource/plus-jakarta-sans/500.css";
+import "@fontsource/plus-jakarta-sans/600.css";
+import "@fontsource/plus-jakarta-sans/700.css";
+import "@fontsource/plus-jakarta-sans/800.css";
+
+import "@fontsource/jetbrains-mono/400.css";
+import "@fontsource/jetbrains-mono/500.css";
+import "@fontsource/jetbrains-mono/600.css";
+import "@fontsource/jetbrains-mono/700.css";
+
+import "@fontsource/material-symbols-outlined";
+import "../styles/global.css";
+
+import type { Lang } from "../i18n/ui";
+
+interface Props {
+    title: string;
+    description?: string;
+    lang?: Lang;
+}
+const { title, description = "", lang = "es" } = Astro.props;
+---
+
+<!doctype html>
+<html class="scroll-smooth dark" lang={lang}>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>{title}</title>
+        {description && <meta name="description" content={description} />}
+        <meta name="generator" content={Astro.generator} />
+    </head>
+    <body class="bg-surface-black text-text-primary font-sans antialiased min-h-screen relative overflow-x-hidden">
+        <slot />
+    </body>
+</html>
+
+<script>
+    // Scroll reveal compartido por todas las páginas
+    const initReveal = () => {
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting)
+                        entry.target.classList.add("revealed");
+                });
+            },
+            { threshold: 0.1 },
+        );
+        document
+            .querySelectorAll(".reveal-item")
+            .forEach((el) => observer.observe(el));
+    };
+
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", initReveal);
+    } else {
+        initReveal();
+    }
+</script>
