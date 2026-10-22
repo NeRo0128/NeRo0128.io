@@ -1,7 +1,8 @@
 # AGENTS.md
 
 Personal CV / portfolio site: one static page per language, Astro 7 + Tailwind CSS v4, no
-client framework, no tests, no git repo in this directory.
+client framework, no tests. Git repo on `main`, tracking `origin`
+(https://github.com/NeRo0128/NeRo0128.io).
 
 ## Commands
 
@@ -45,6 +46,9 @@ client framework, no tests, no git repo in this directory.
   its `tailwind.config.js` / `postcss.config.js` into the root.
 - `.venv/` belongs to another project (its `pyvenv.cfg` points at `../porfolio`), and `.astro/`
   is generated. Ignore both.
-- `.nojekyll` sits at the repo root, not in `public/`, so it is not copied into `dist/`.
-  There is no CI config here; whatever publishes `dist/` must handle that itself.
+- Deployment target is Vercel from the `main` branch. The Astro preset is auto-detected
+  (build `npm run build`, static output `dist/`); there is no Astro adapter, no `vercel.json`
+  and no env vars, and none are needed while the site stays static. Vercel only offers Node
+  22.x/24.x majors, so `engines.node` `>=22.23.4` resolves to its default 24.x there.
+- `.gitignore` deliberately excludes `dist/`, `.astro/`, `.venv/` and `bak/`.
 - Requires Node >= 22.23.4 (`engines`).

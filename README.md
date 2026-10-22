@@ -38,7 +38,13 @@ public/                # Favicons e imágenes
 Las dos páginas están duplicadas a propósito: cualquier cambio de estructura debe aplicarse a
 `src/pages/index.astro` y `src/pages/en/index.astro`.
 
+## Despliegue
+
+El sitio se publica en [Vercel](https://vercel.com) desde este repositorio de GitHub (rama
+`main`). El preset de Astro se detecta automáticamente: comando `npm run build`, salida
+estática en `dist/`. No se necesita adaptador de Astro, `vercel.json` ni variables de entorno
+mientras el sitio siga siendo estático.
+
 ## Notas
 
 - El formulario de contacto es un stub: simula el envío, no hay backend todavía.
-- `.nojekyll` vive en la raíz, no en `public/`, así que no se copia a `dist/`.
