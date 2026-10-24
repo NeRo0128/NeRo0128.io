@@ -92,6 +92,33 @@ const t = useTranslations(lang);
                         data-lang={lang}
                         novalidate
                     >
+                        <!-- 🔑 Web3Forms: reemplaza TU_ACCESS_KEY_AQUI por tu clave real -->
+                        <input
+                            type="hidden"
+                            name="access_key"
+                            value="1ed6e1ae-1fbe-4b13-a120-fa6ab469c19b"
+                        />
+                        <input
+                            type="hidden"
+                            name="subject"
+                            value="Nuevo contacto desde RCV.studio"
+                        />
+                        <input
+                            type="hidden"
+                            name="from_name"
+                            value="RCV.studio"
+                        />
+
+                        <!-- 🕵️ Honeypot anti-spam (no mostrar) -->
+                        <input
+                            type="checkbox"
+                            name="botcheck"
+                            class="hidden"
+                            style="display: none;"
+                            tabindex="-1"
+                            autocomplete="off"
+                        />
+
                         <div>
                             <label
                                 for="name"
@@ -157,43 +184,73 @@ const t = useTranslations(lang);
                         </div>
                     </form>
 
+                    <!-- ✅ Mensaje de éxito -->
                     <div
                         id="formSuccessMessage"
                         class="hidden mt-4 p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-mono text-xs text-center"
                     >
                         {t("contact.form.success")}
                     </div>
+
+                    <!-- ❌ Mensaje de error -->
+                    <div
+                        id="formErrorMessage"
+                        class="hidden mt-4 p-3 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400 font-mono text-xs text-center"
+                    >
+                        {lang === "en"
+                            ? "Something went wrong. Please try again or email me at nerowork60@gmail.com."
+                            : "Algo salió mal. Intenta de nuevo o escríbeme a nerowork60@gmail.com."}
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
-
 <script>
-    const form = document.getElementById(
-        "inquiryForm",
-    ) as HTMLFormElement | null;
-    const submitBtn = document.getElementById(
-        "submitInquiryBtn",
-    ) as HTMLButtonElement | null;
-    const btnText = document.getElementById("submitBtnText");
-    const successMsg = document.getElementById("formSuccessMessage");
+    const setupForm = () => {
+        const form = document.getElementById("inquiryForm") as HTMLFormElement | null;
+        const submitBtn = document.getElementById("submitInquiryBtn") as HTMLButtonElement | null;
+        const btnText = document.getElementById("submitBtnText");
+        const successMsg = document.getElementById("formSuccessMessage");
+        const errorMsg = document.getElementById("formErrorMessage");
 
-    if (form && submitBtn && btnText && successMsg) {
-        form.addEventListener("submit", (event) => {
+        if (!form || !submitBtn || !btnText || !successMsg || !errorMsg) return;
+        if (form.dataset.bound === "true") return; // evita listeners duplicados
+        form.dataset.bound = "true";
+
+        form.addEventListener("submit", async (event) => {
             event.preventDefault();
             const lang = form.dataset.lang || "es";
 
-            btnText.textContent =
-                lang === "en" ? "Transmitting..." : "Transmitiendo...";
+            btnText.textContent = lang === "en" ? "Transmitting..." : "Transmitiendo...";
             submitBtn.disabled = true;
+            successMsg.classList.add("hidden");
+            errorMsg.classList.add("hidden");
 
-            // TODO: conectar a un backend real (Formspree, Resend, etc.)
-            setTimeout(() => {
-                submitBtn.style.display = "none";
-                successMsg.classList.remove("hidden");
-                form.reset();
-            }, 800);
+            try {
+                const formData = new FormData(form);
+                const response = await fetch("https://api.web3forms.com/submit", {
+                    method: "POST",
+                    body: formData,
+                });
+                const data = await response.json();
+
+                if (data.success) {
+                    submitBtn.style.display = "none";
+                    successMsg.classList.remove("hidden");
+                    form.reset();
+                } else {
+                    throw new Error(data.message || "Error en el envío");
+                }
+            } catch (err) {
+                console.error("[Web3Forms]", err);
+                errorMsg.classList.remove("hidden");
+                btnText.textContent = lang === "en" ? "Submit Inquiry" : "Enviar Propuesta";
+                submitBtn.disabled = false;
+            }
         });
-    }
+    };
+
+    setupForm();
+    document.addEventListener("astro:page-load", setupForm);
 </script>

@@ -20,8 +20,51 @@ interface Props {
     title: string;
     description?: string;
     lang?: Lang;
+    image?: string;
+    type?: "website" | "article";
+    noindex?: boolean;
 }
-const { title, description = "", lang = "es" } = Astro.props;
+
+const {
+    title,
+    description = "",
+    lang = "es",
+    image = "/images/og-image.jpg",
+    type = "website",
+    noindex = false,
+} = Astro.props;
+
+// URLs absolutas
+const siteURL = Astro.site ?? new URL("http://localhost:4321");
+const canonicalURL = new URL(Astro.url.pathname, siteURL);
+const imageURL = new URL(image, siteURL);
+
+// Alternates hreflang
+const pathWithoutLang = Astro.url.pathname.replace(/^\/en(\/|$)/, "/");
+const esURL = new URL(pathWithoutLang, siteURL);
+const enURL = new URL("/en" + pathWithoutLang, siteURL);
+
+// JSON-LD precomputado
+const jsonLd = JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: "Rodolfo Castillo Vega",
+    jobTitle: "Senior Backend Developer & Cloud-Native Architect",
+    url: siteURL.toString(),
+    image: imageURL.toString(),
+    sameAs: [
+        "https://github.com/NeRo0128",
+        "https://linkedin.com/in/rodolfo-castillo-vega",
+    ],
+    knowsAbout: [
+        "Go",
+        "Python",
+        "Distributed Systems",
+        "Neo4j",
+        "Ollama",
+        "Cloud-Native Architecture",
+    ],
+});
 ---
 
 <!doctype html>
@@ -29,8 +72,54 @@ const { title, description = "", lang = "es" } = Astro.props;
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="theme-color" content="#08080a" />
+
+        <!-- ─── SEO Básico ─── -->
         <title>{title}</title>
         {description && <meta name="description" content={description} />}
+        <meta name="author" content="Rodolfo Castillo Vega" />
+        <link rel="canonical" href={canonicalURL} />
+        {noindex && <meta name="robots" content="noindex, nofollow" />}
+
+        <!-- ─── hreflang (ES / EN) ─── -->
+        <link rel="alternate" hreflang="es" href={esURL} />
+        <link rel="alternate" hreflang="en" href={enURL} />
+        <link rel="alternate" hreflang="x-default" href={esURL} />
+
+        <!-- ─── Open Graph ─── -->
+        <meta property="og:type" content={type} />
+        <meta property="og:url" content={canonicalURL} />
+        <meta property="og:title" content={title} />
+        {description && (
+            <meta property="og:description" content={description} />
+        )}
+        <meta property="og:image" content={imageURL} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:site_name" content="RCV.studio" />
+        <meta
+            property="og:locale"
+            content={lang === "es" ? "es_ES" : "en_US"}
+        />
+        <meta
+            property="og:locale:alternate"
+            content={lang === "es" ? "en_US" : "es_ES"}
+        />
+
+        <!-- ─── Twitter Card ─── -->
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={title} />
+        {description && (
+            <meta name="twitter:description" content={description} />
+        )}
+        <meta name="twitter:image" content={imageURL} />
+
+        <!-- ─── Favicon ─── -->
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+        <!-- ─── Datos estructurados (Schema.org / Person) ─── -->
+        <script type="application/ld+json" set:html={jsonLd} />
         <meta name="generator" content={Astro.generator} />
     </head>
     <body class="bg-surface-black text-text-primary font-sans antialiased min-h-screen relative overflow-x-hidden">
@@ -39,7 +128,6 @@ const { title, description = "", lang = "es" } = Astro.props;
 </html>
 
 <script>
-    // Scroll reveal compartido por todas las páginas
     const initReveal = () => {
         const observer = new IntersectionObserver(
             (entries) => {
