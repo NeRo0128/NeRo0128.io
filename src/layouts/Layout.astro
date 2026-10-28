@@ -44,17 +44,29 @@ const pathWithoutLang = Astro.url.pathname.replace(/^\/en(\/|$)/, "/");
 const esURL = new URL(pathWithoutLang, siteURL);
 const enURL = new URL("/en" + pathWithoutLang, siteURL);
 
-// JSON-LD precomputado
+// JSON-LD precomputado (Schema.org / Person)
 const jsonLd = JSON.stringify({
     "@context": "https://schema.org",
     "@type": "Person",
     name: "Rodolfo Castillo Vega",
+    alternateName: "RCV.studio",
     jobTitle: "Senior Backend Developer & Cloud-Native Architect",
     url: siteURL.toString(),
     image: imageURL.toString(),
+    email: "mailto:castillovegarodolfogilberto@gmail.com",
+    address: {
+        "@type": "PostalAddress",
+        addressLocality: "Santa Clara",
+        addressCountry: "CU",
+    },
+    alumniOf: {
+        "@type": "EducationalOrganization",
+        name: 'Universidad Central "Marta Abreu" de Las Villas (UCLV)',
+        url: "https://www.uclv.edu.cu",
+    },
     sameAs: [
         "https://github.com/NeRo0128",
-        "https://linkedin.com/in/rodolfo-castillo-vega",
+        "https://www.linkedin.com/in/vibeweb-studio-711782447",
     ],
     knowsAbout: [
         "Go",
@@ -63,7 +75,9 @@ const jsonLd = JSON.stringify({
         "Neo4j",
         "Ollama",
         "Cloud-Native Architecture",
+        "AI Orchestration",
     ],
+    knowsLanguage: ["es", "en"],
 });
 ---
 
