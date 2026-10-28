@@ -66,7 +66,7 @@ export const ui = {
     "contact.form.scope": "Alcance del Proyecto & Arquitectura",
     "contact.form.submit": "Enviar Propuesta",
     "contact.form.success":
-      "✓ Solicitud registrada. Te contactaré en breve vía nerowork60@gmail.com",
+      "✓ Solicitud registrada. Te contactaré en breve vía castillovegarodolfogilberto@gmail.com",
     "contact.form.transmitting": "Transmitiendo...",
     "timeline.activeBadge": "Hito Activo",
   },
@@ -128,7 +128,7 @@ export const ui = {
     "contact.form.scope": "Project Scope & Architecture",
     "contact.form.submit": "Submit Inquiry",
     "contact.form.success":
-      "✓ Message delivered. Connecting shortly via nerowork60@gmail.com",
+      "✓ Message delivered. Connecting shortly via castillovegarodolfogilberto@gmail.com",
     "contact.form.transmitting": "Transmitting...",
     "timeline.activeBadge": "Active Milestone",
   },
